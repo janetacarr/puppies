@@ -3,16 +3,16 @@ from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
 
 def build_users_table(cur):
-    cur.execute('CREATE TABLE users (user_id serial primary key, username text unique not null, password text not null, first_name text not null, last_name text not null);')
+    cur.execute('CREATE TABLE users (user_id serial primary key, email text unique not null, password text not null, first_name text not null, last_name text not null);')
 
 def build_posts_table(cur):
-    cur.execute('CREATE TABLE posts (post_id serial primary key, user_id integer references users(user_id), description text);')
+    cur.execute('CREATE TABLE posts (post_id serial primary key, user_id integer references users(user_id), description text, ts timestamp default current_timestamp);')
 
 def build_pictures_table(cur):
     cur.execute('CREATE TABLE pictures (picture_id serial primary key, post_id integer references posts(post_id), picture_data bytea);')
 
 def build_likes_table(cur):
-    cur.execute('CREATE TABLE likes (like_id serial primary key, user_id integer references users(user_id), post_id integer references posts(post_id));')
+    cur.execute('CREATE TABLE likes (like_id serial primary key, user_id integer references users(user_id), post_id integer unique references posts(post_id));')
 
 def build_db(cur, dbname):
     cur.execute('CREATE DATABASE ' + dbname)
