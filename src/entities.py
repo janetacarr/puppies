@@ -65,8 +65,40 @@ def get_posts():
     cur, conn = dbsetup()
 
     cur.execute("""
-    select picture_posts.post_id, picture_posts.description, picture_posts.user_id, picture_posts.ts, picture_posts.picture_data, count(picture_posts.post_id) as number_of_likes from 
-(SELECT posts.post_id, posts.user_id, posts.description, posts.ts, pictures.picture_data from posts, pictures where posts.post_id = pictures.post_id) as picture_posts, likes where picture_posts.post_id = likes.post_id group by picture_posts.post_id, picture_posts.description, picture_posts.user_id, picture_posts.ts, picture_posts.picture_data order by ts DESC;
+    select 
+		picture_posts.post_id, 
+		picture_posts.description, 
+		picture_posts.user_id, 
+		picture_posts.ts, 
+		picture_posts.picture_data, 
+		count(likes.post_id) as number_of_likes 
+    from 
+		(SELECT 
+				posts.post_id, 
+				posts.user_id, 
+				posts.description, 
+				posts.ts, 
+				pictures.picture_data 
+		 from 
+		 		posts, 
+		 		pictures 
+		 where 	
+		 		posts.post_id = pictures.post_id) 
+    as 		
+		picture_posts
+    left outer join
+		likes
+    on 	
+		picture_posts.post_id = likes.post_id 
+    group by 
+		picture_posts.post_id, 
+		picture_posts.description, 
+		picture_posts.user_id, 
+		picture_posts.ts, 
+		picture_posts.picture_data 
+    order by 
+		ts 
+    DESC;
     """)
     posts = cur.fetchall()
 

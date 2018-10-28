@@ -12,7 +12,7 @@ def build_pictures_table(cur):
     cur.execute('CREATE TABLE pictures (picture_id serial primary key, post_id integer references posts(post_id), picture_data bytea);')
 
 def build_likes_table(cur):
-    cur.execute('CREATE TABLE likes (like_id serial primary key, user_id integer references users(user_id), post_id integer unique references posts(post_id));')
+    cur.execute('CREATE TABLE likes (like_id serial primary key, user_id integer references users(user_id), post_id integer references posts(post_id));')
 
 def build_db(cur, dbname):
     cur.execute('CREATE DATABASE ' + dbname)
