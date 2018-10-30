@@ -38,10 +38,8 @@ def posts_handler():
         # if user does not select file, browser also
         # submit an empty part without filename
         if file.filename == '':
-            print("here")
             return make_response("No selected file", 400)
         if file and allowed_file(file.filename):
-            print("there")
             filename = secure_filename(file.filename)
             file_b = file.read()
             entities.create_picture(post_id, file_b)
