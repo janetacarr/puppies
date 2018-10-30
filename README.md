@@ -25,7 +25,7 @@ to run the integration tests.
 You might want to drop the puppies database afterwards
 
 ## About
-####Caveats
+#### Caveats
 Lot's of hacks. Here is a list of tech debt in no particular order:
 - The design of the code base is not decoupled or granular enough making unit testing difficult.
 - As a consequence of the previous point, I only provided integration tests and no unit tests. 
